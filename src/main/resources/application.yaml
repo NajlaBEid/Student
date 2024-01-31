@@ -1,0 +1,53 @@
+logging:
+  level:
+    org:
+      hibernate: ERROR
+    springframework:
+      web: INFO
+server:
+  port: 8080
+spring:
+  codec:
+    max-in-memory-size: 10MB
+  datasource:
+    username: sa
+    password: MyPassword123#
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;DatabaseName=Student;sendStringParametersAsUnicode=true;encrypt=true;trustServerCertificate=true;
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_schema: dbo
+        format_sql: ture
+        generate_statistics: false
+        session:
+          events:
+            log:
+              LOG_QUERIES_SLOWER_THAN_MS: 3
+      javax:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      show-sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+#    password: ${spring.datasource.password}
+#    url: ${spring.datasource.url}
+#    user: ${spring.datasource.username}
+springdoc:
+api-docs:
+  path: /api-docs
+
+
+
+#spring.datasource.url=jdbc:h2:mem:test
+#spring.datasource.driverClassName=org.h2.Driver
+#spring.datasource.username=sa
+#spring.datasource.password=123
+#spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+#spring.h2.console.enabled=true
+#
+#

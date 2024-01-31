@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+
+
+    <changeSet id="MAJOR-1" author="Student">
+
+        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="-9223372036854775808" sequenceName="MAJOR_SEQ" startValue="1"/>
+
+        <createTable tableName="MAJOR">
+            <column computed="false" name="ID" type="bigint" >
+                <constraints primaryKey="true" primaryKeyName="PK_MAJOR_ID"/>
+
+            </column>
+            <column computed="false" name="MAJOR_CODE" type="varchar(255)" ></column>
+            <column computed="false" name="NAME" type="varchar(255)" ></column>
+
+
+            <!--                Metadata-->
+
+            <column computed="false" name="LAST_MODIFIED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_DATE" type="datetime2"/>
+            <column computed="false" name="DELETED" type="bit"/>
+            <column computed="false" name="DELETED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="DELETED_DATE_TIME" type="datetime2"/>
+            <column computed="false" name="ENABLED" type="bit"/>
+            <column computed="false" name="LAST_MODIFIED_DATE" type="datetime2"/>
+
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="Student-1" author="Student">
+
+        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="-9223372036854775808" sequenceName="STUDENT_SEQ" startValue="1"/>
+
+        <createTable tableName="STUDENT">
+            <column computed="false" name="ID" type="bigint" >
+                <constraints primaryKey="true" primaryKeyName="PK_STUDENT_ID"/>
+            </column>
+            <column computed="false" name="NAME" type="varchar(255)" ></column>
+            <column computed="false" name="MAJOR_ID" type="bigint" ></column>
+
+
+            <!--                Metadata-->
+
+
+            <column computed="false" name="LAST_MODIFIED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_DATE" type="datetime2"/>
+            <column computed="false" name="DELETED" type="bit"/>
+            <column computed="false" name="DELETED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="DELETED_DATE_TIME" type="datetime2"/>
+            <column computed="false" name="ENABLED" type="bit"/>
+            <column computed="false" name="LAST_MODIFIED_DATE" type="datetime2"/>
+
+
+
+
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="STUDENT" baseColumnNames="MAJOR_ID"
+                                 constraintName="MAJOR_ID_FK" referencedTableName="MAJOR"
+                                 referencedColumnNames="ID" />
+    </changeSet>
+
+
+
+</databaseChangeLog>
+
