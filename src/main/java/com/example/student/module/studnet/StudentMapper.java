@@ -7,10 +7,12 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Page;
+import java.awt.print.Pageable;
 
 @Mapper
 @Component
-public interface StudentMapper extends StructMapper<Student, StudentModel, StudentDto> {
+ interface StudentMapper extends StructMapper<Student, StudentModel, StudentDto> {
 
     @Mapping(target = "major", ignore = true)
     Student modelToEntity(final StudentModel model, @MappingTarget final Student target);
@@ -20,4 +22,9 @@ public interface StudentMapper extends StructMapper<Student, StudentModel, Stude
     @Named("toDto")
     @Mapping(target = "major", ignore = true)
     StudentDto toDto(final Student save);
+
+    default Page<StudentDto> toPage(final Page<Student> save) {
+        return save.map(this::toDto);
+    }
+
 }

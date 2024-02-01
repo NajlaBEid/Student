@@ -17,5 +17,4 @@ public class StudentDto extends DtoMeta {
 
     private Major major;
 
-
 }

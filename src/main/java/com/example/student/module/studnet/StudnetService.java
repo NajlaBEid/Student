@@ -1,29 +1,26 @@
 package com.example.student.module.studnet;
 
-import com.example.student.module.major.Major;
-import com.example.student.module.major.MajorDto;
-import com.example.student.module.major.MajorRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class StudnetService {
 
     private final StudentRepository repository;
-    private final MajorRepository majorRepository;
 
+    @Qualifier("studentMapper")
     private final StudentMapper mapper;
-
-
 
     public StudentDto createStudent(StudentModel studentModel) {
         //convert model to entity - save
-        Student student =  this.mapper.toEntity(studentModel);
+        Student student = this.mapper.toEntity(studentModel);
         this.repository.save(student);
 
         //convert entity to dto - return
@@ -34,15 +31,13 @@ public class StudnetService {
 
     public StudentDto getById(Long id) {
         Student student = repository.findStudentById(id);
-        student.setMajorName(majorRepository.findStudentMajorById(student.getMajorId()));
         StudentDto studentDTO = this.mapper.toDto(student);
         return studentDTO;
     }
-// I used major id to get the major name from Major class by injecting  MajorRepository and created another
-//method in the repository that get the major id and return the name of major
+
     public StudentDto updateStudent(StudentModel studentModel, Long id) {
         Student student = repository.findStudentById(id);
-        student =  this.mapper.modelToEntity(studentModel,student);
+        student = this.mapper.modelToEntity(studentModel, student);
         this.repository.save(student);
         StudentDto studentDto = this.mapper.toDto(student);
         return studentDto;
@@ -54,10 +49,19 @@ public class StudnetService {
         return "Student with ID " + id + " deleted";
 
     }
+    public StudentDto getByIdWithMajor(Long id) {
+        Student student = repository.findStudentById(id);
+        student = this.repository.findIdWithMajor(id);
+        StudentDto studentDTO = this.mapper.toDto(student);
+        return studentDTO;
+    }
+
+    public Page<StudentDto> getPage(final Pageable page) {
+        return this.mapper.toPage(this.repository.findAll(page));
+    }
+
+
 }
-
-
-
 
 //    public StudentDto updateStudentMajor(StudentDto studentDTO, Long id) {
 //        Student student = repository.findStudentById(id);
@@ -75,10 +79,6 @@ public class StudnetService {
 //        List<StudentDto> studentDTOList = studentMapper.DTO(studentList);
 //        return studentDTOList;
 //    }
-
-
-
-
 
 
 // public Student updateStudentMajor(Student student, Long id){
@@ -107,5 +107,7 @@ public class StudnetService {
 //        studentDto.setName(student.getName());
 //        return studentDto;
 //    }
+
+
 
 

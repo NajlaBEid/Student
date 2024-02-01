@@ -33,7 +33,6 @@ public class StudentController {
     return service.deleteId(id);
     }
 
-
     @GetMapping()
     public Page<StudentDto> getMapping(final Pageable pageable) {
         return this.service.getPage(pageable);

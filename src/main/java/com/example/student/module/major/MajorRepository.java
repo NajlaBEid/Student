@@ -6,10 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MajorRepository extends JpaRepository<Major,Long> {
+ interface MajorRepository extends JpaRepository<Major,Long> {
     public Major findMajorById(Long id);
 
-    public String findStudentMajorById(Long id);
 
 
 

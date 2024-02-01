@@ -1,10 +1,7 @@
 package com.example.student.module.major;
 
 
-import com.example.student.module.studnet.Student;
-import com.example.student.module.studnet.StudentDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service

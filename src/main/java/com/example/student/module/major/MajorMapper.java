@@ -8,7 +8,7 @@ import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 @Mapper
 @Component
-public interface MajorMapper extends StructMapper <Major, MajorModel, MajorDto> {
+ interface MajorMapper extends StructMapper <Major, MajorModel, MajorDto> {
 
     Major modelToEntity(final MajorModel model, @MappingTarget final Major target);
     @Named("toEntity")

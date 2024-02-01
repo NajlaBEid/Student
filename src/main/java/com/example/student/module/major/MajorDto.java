@@ -19,6 +19,5 @@ public class MajorDto extends DtoMeta {
 
     private String name;
 
-    private List<Student> students;
 
 }
