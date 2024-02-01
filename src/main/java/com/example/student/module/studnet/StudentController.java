@@ -1,7 +1,8 @@
 package com.example.student.module.studnet;
 
-import com.example.student.module.major.MajorRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -9,37 +10,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/student")
 public class StudentController {
 
-    private final StudnetService Service;
-
+    private final StudnetService service;
 
     @PostMapping()
     public StudentDto postMapping(@RequestBody final StudentModel student){
 
-    return Service.createStudent(student);
+    return service.createStudent(student);
     }
     @GetMapping("/{id}")
     public StudentDto getMapping(@PathVariable final Long id){
-       return Service.getById(id);
+       return service.getByIdWithMajor(id);
     }
 
 
     @PutMapping("/{id}")
     public StudentDto putMapping(@RequestBody final StudentModel studentModel, @PathVariable final Long id){
-        return Service.updateStudent(studentModel, id);
+        return service.updateStudent(studentModel, id);
     }
 
     @DeleteMapping("/{id}")
     public String deleteMapping(@PathVariable final Long id){
-    return Service.deleteId(id);
+    return service.deleteId(id);
     }
 
 
-
-//    @PutMapping("{/id}/major")
-//    public StudentDto updateMajor(@RequestBody StudentDto studentDTO, Long id){
-//       return Service.updateStudentMajor(studentDTO, id);
-//
-//    }
-
+    @GetMapping()
+    public Page<StudentDto> getMapping(final Pageable pageable) {
+        return this.service.getPage(pageable);
+    }
 
 }
