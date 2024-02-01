@@ -29,12 +29,6 @@ public class StudnetService {
 
     }
 
-    public StudentDto getById(Long id) {
-        Student student = repository.findStudentById(id);
-        StudentDto studentDTO = this.mapper.toDto(student);
-        return studentDTO;
-    }
-
     public StudentDto updateStudent(StudentModel studentModel, Long id) {
         Student student = repository.findStudentById(id);
         student = this.mapper.modelToEntity(studentModel, student);
@@ -57,6 +51,7 @@ public class StudnetService {
     }
 
     public Page<StudentDto> getPage(final Pageable page) {
+
         return this.mapper.toPage(this.repository.findAll(page));
     }
 
