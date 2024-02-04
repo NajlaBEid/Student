@@ -2,6 +2,7 @@ package com.example.student.module.studnet;
 
 import com.example.student.framework.model.DtoMeta;
 import com.example.student.module.major.Major;
+import com.example.student.module.major.MajorDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class StudentDto extends DtoMeta {
 
     private Long majorId;
 
-    private Major major;
+
+    private MajorDto major;
 
 }

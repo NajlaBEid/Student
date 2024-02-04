@@ -29,7 +29,6 @@ public class MajorController {
     public MajorDto putMapping( @RequestBody final MajorModel majorModel,  @PathVariable final Long id){
         return majorService.updateMajor(majorModel,id);
     }
-
     @DeleteMapping("/{id}")
     public String deleteMapping( @PathVariable final Long id){
        return majorService.deleteMajor(id);

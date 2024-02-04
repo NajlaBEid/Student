@@ -1,6 +1,8 @@
 package com.example.student.module.studnet;
 
 import com.example.student.framework.mapping.StructMapper;
+import com.example.student.module.major.Major;
+import com.example.student.module.major.MajorDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -23,7 +25,16 @@ import java.awt.print.Pageable;
     @Mapping(target = "major", ignore = true)
     StudentDto toDto(final Student save);
 
-    default Page<StudentDto> toPage(final Page<Student> save) {
+
+
+    default StudentDto toDtoWithMajor(final Student student, MajorDto majorDto){
+       StudentDto studentDto = this.toDto(student);
+       studentDto.setMajor(majorDto);
+       return studentDto;
+    }
+
+
+   default Page<StudentDto> toPage(final Page<Student> save) {
         return save.map(this::toDto);
     }
 

@@ -1,11 +1,13 @@
 package com.example.student.module.studnet;
 
+import com.example.student.module.major.Major;
+import com.example.student.module.major.MajorDto;
+import com.example.student.module.major.MajorStudentProxy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
-
 
 import java.util.List;
 
@@ -14,6 +16,9 @@ import java.util.List;
 public class StudnetService {
 
     private final StudentRepository repository;
+    private final MajorStudentProxy majorStudentProxy;
+
+
 
     @Qualifier("studentMapper")
     private final StudentMapper mapper;
@@ -43,10 +48,17 @@ public class StudnetService {
         return "Student with ID " + id + " deleted";
 
     }
-    public StudentDto getByIdWithMajor(Long id) {
+    public StudentDto getById(Long id) {
         Student student = repository.findStudentById(id);
-        student = this.repository.findIdWithMajor(id);
         StudentDto studentDTO = this.mapper.toDto(student);
+        return studentDTO;
+    }
+
+
+    public StudentDto getByIdWithMajor(Long id) {
+        Student student = this.repository.findIdWithMajor(id);
+        MajorDto majorDto = this.majorStudentProxy.getMajorById(student.getMajorId());
+        StudentDto studentDTO = this.mapper.toDtoWithMajor(student,majorDto); // convert them both to
         return studentDTO;
     }
 

@@ -1,12 +1,15 @@
 package com.example.student.module.studnet;
 
 import com.example.student.framework.model.EntityMeta;
+import com.example.student.module.course.Course;
 import com.example.student.module.major.Major;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -22,8 +25,16 @@ public class Student extends EntityMeta {
     private String name;
 
     private Long majorId;
+
+
+
     @ToString.Exclude
     @OneToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "majorId", referencedColumnName = "id", insertable = false, updatable = false)
     private Major major;
+
+    @ToString.Exclude
+    @OneToMany (fetch = FetchType.LAZY)
+    private List<Course> courses;
+
 }
