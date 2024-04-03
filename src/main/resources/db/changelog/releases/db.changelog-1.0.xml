@@ -4,6 +4,32 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
+    <changeSet id="DEP-1" author="Student">
+
+        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="-9223372036854775808" sequenceName="DEP_SEQ" startValue="1"/>
+
+        <createTable tableName="Department">
+            <column computed="false" name="ID" type="bigint" >
+                <constraints primaryKey="true" primaryKeyName="PK_Department_ID"/>
+
+            </column>
+            <column computed="false" name="NAME" type="varchar(255)" ></column>
+
+
+            <column computed="false" name="LAST_MODIFIED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_DATE" type="datetime2"/>
+            <column computed="false" name="DELETED" type="bit"/>
+            <column computed="false" name="DELETED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="DELETED_DATE_TIME" type="datetime2"/>
+            <column computed="false" name="ENABLED" type="bit"/>
+            <column computed="false" name="LAST_MODIFIED_DATE" type="datetime2"/>
+
+        </createTable>
+
+
+    </changeSet>
 
 
     <changeSet id="MAJOR-1" author="Student">
@@ -18,6 +44,7 @@
             </column>
             <column computed="false" name="MAJOR_CODE" type="varchar(255)" ></column>
             <column computed="false" name="NAME" type="varchar(255)" ></column>
+            <column computed="false" name="DEPARTMENT_ID" type="bigint" ></column>
 
 
             <!--                Metadata-->
@@ -33,6 +60,9 @@
 
 
         </createTable>
+        <addForeignKeyConstraint baseTableName="MAJOR" baseColumnNames="DEPARTMENT_ID"
+                                 constraintName="DEP_MAJOR_ID_FK" referencedTableName="Department"
+                                 referencedColumnNames="id" />
     </changeSet>
 
     <changeSet id="Student-1" author="Student">
@@ -48,7 +78,8 @@
             <column computed="false" name="MAJOR_ID" type="bigint" ></column>
 
 
-            <!--                Metadata-->
+
+            <!--             Metadata-->
 
 
             <column computed="false" name="LAST_MODIFIED_BY_USERNAME" type="varchar(255)"/>
@@ -60,17 +91,91 @@
             <column computed="false" name="ENABLED" type="bit"/>
             <column computed="false" name="LAST_MODIFIED_DATE" type="datetime2"/>
 
-
-
-
         </createTable>
 
         <addForeignKeyConstraint baseTableName="STUDENT" baseColumnNames="MAJOR_ID"
                                  constraintName="MAJOR_ID_FK" referencedTableName="MAJOR"
                                  referencedColumnNames="ID" />
+
+
+
+
+    </changeSet>
+
+<!--           ************************************************************       -->
+
+    <changeSet id="Course-1" author="Student">
+
+        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="-9223372036854775808" sequenceName="COURSE_SEQ" startValue="1"/>
+
+        <createTable tableName="COURSE">
+            <column computed="false" name="ID" type="bigint" >
+                <constraints primaryKey="true" primaryKeyName="PK_COURSE_ID"/>
+            </column>
+            <column computed="false" name="NAME" type="varchar(255)" ></column>
+            <column computed="false" name="MAJOR_ID" type="bigint" ></column>
+
+
+            <!--             Metadata-->
+
+
+            <column computed="false" name="LAST_MODIFIED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_DATE" type="datetime2"/>
+            <column computed="false" name="DELETED" type="bit"/>
+            <column computed="false" name="DELETED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="DELETED_DATE_TIME" type="datetime2"/>
+            <column computed="false" name="ENABLED" type="bit"/>
+            <column computed="false" name="LAST_MODIFIED_DATE" type="datetime2"/>
+
+        </createTable>
+        <addForeignKeyConstraint baseTableName="COURSE" baseColumnNames="MAJOR_ID"
+                                 constraintName="MAJOR_COURSE_ID_FK" referencedTableName="MAJOR"
+                                 referencedColumnNames="ID" />
+
     </changeSet>
 
 
+    <!--           ************************************************************       -->
+
+
+
+    <changeSet id="enroll" author="Student">
+
+        <createSequence cycle="false" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="-9223372036854775808" sequenceName="ENROLL_SEQ" startValue="1"/>
+
+        <createTable tableName="Enroll">
+            <column computed="false" name="ID" type="bigint" >
+                <constraints primaryKey="true" primaryKeyName="enroll_PK"/>
+            </column>
+            <column computed="false" name="COURSE_ID" type="bigint"/>
+            <column computed="false" name="STUDENT_ID" type="bigint"/>
+
+
+            <column computed="false" name="LAST_MODIFIED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="CREATED_DATE" type="datetime2"/>
+            <column computed="false" name="DELETED" type="bit"/>
+            <column computed="false" name="DELETED_BY_USERNAME" type="varchar(255)"/>
+            <column computed="false" name="DELETED_DATE_TIME" type="datetime2"/>
+            <column computed="false" name="ENABLED" type="bit"/>
+            <column computed="false" name="LAST_MODIFIED_DATE" type="datetime2"/>
+        </createTable>
+
+
+    </changeSet>
+
+
+
+<changeSet id="a" author="a">
+    <addForeignKeyConstraint baseTableName="Enroll" baseColumnNames="COURSE_ID" constraintName="COURSE_ID_FK" referencedTableName="COURSE"
+                             referencedColumnNames="ID"/>
+    <addForeignKeyConstraint baseTableName="Enroll" baseColumnNames="STUDENT_ID" constraintName="STUDENT_ID_FK" referencedTableName="STUDENT"
+                             referencedColumnNames="ID"/>
+
+</changeSet>
 
 </databaseChangeLog>
 
