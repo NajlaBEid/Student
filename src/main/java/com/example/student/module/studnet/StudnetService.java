@@ -1,15 +1,17 @@
 package com.example.student.module.studnet;
 
-import com.example.student.module.major.Major;
-import com.example.student.module.major.MajorDto;
-import com.example.student.module.major.MajorStudentProxy;
+
+import com.example.student.module.department.major.MajorDto;
+import com.example.student.module.department.major.MajorStudentProxy;
+import com.example.student.module.enroll.EnrollStudentProxy;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -17,23 +19,17 @@ public class StudnetService {
 
     private final StudentRepository repository;
     private final MajorStudentProxy majorStudentProxy;
-
-
-
-    @Qualifier("studentMapper")
     private final StudentMapper mapper;
+    private final EnrollStudentProxy enrollStudentProxy;
+
 
     public StudentDto createStudent(StudentModel studentModel) {
-        //convert model to entity - save
+
         Student student = this.mapper.toEntity(studentModel);
         this.repository.save(student);
-
-        //convert entity to dto - return
         StudentDto studentDto = this.mapper.toDto(student);
         return studentDto;
-
     }
-
     public StudentDto updateStudent(StudentModel studentModel, Long id) {
         Student student = repository.findStudentById(id);
         student = this.mapper.modelToEntity(studentModel, student);
@@ -54,12 +50,11 @@ public class StudnetService {
         return studentDTO;
     }
 
+        public StudentDto getByIdWithMajor(Long id) {
+        Student student = this.repository.findStudentById(id);
+        MajorDto majorDto = this.majorStudentProxy.getMajor(student.getMajor());
+        return this.mapper.toDtoWithMajor(student,majorDto);
 
-    public StudentDto getByIdWithMajor(Long id) {
-        Student student = this.repository.findIdWithMajor(id);
-        MajorDto majorDto = this.majorStudentProxy.getMajorById(student.getMajorId());
-        StudentDto studentDTO = this.mapper.toDtoWithMajor(student,majorDto); // convert them both to
-        return studentDTO;
     }
 
     public Page<StudentDto> getPage(final Pageable page) {
@@ -67,54 +62,23 @@ public class StudnetService {
         return this.mapper.toPage(this.repository.findAll(page));
     }
 
+    public List<String> getStudentCourses(final Long id) {
+        List<String> enrolledCourses = repository.getStudentCourses(id);
+        return enrolledCourses;
+    }
 
+    public String enrollInCourse(Long studnetId,Long courseId){
+        this.enrollStudentProxy.createEnrollment(studnetId,courseId);
+        return "Student Successfully Enrolled";
+
+    }
+
+    public String dropCourse(Long studentId,Long courseId){
+       this.enrollStudentProxy.deleteEnrollment(studentId,courseId);
+        return "Course Dropped";
+
+    }
 }
-
-//    public StudentDto updateStudentMajor(StudentDto studentDTO, Long id) {
-//        Student student = repository.findStudentById(id);
-//        student = studentMapper.entity(studentDTO); // convert it to entity
-//        student.setMajor(student.getMajor());
-//        repository.save(student); // save the entity
-//        return studentMapper.DTO(student); // return the dto student
-//    }
-
-//
-
-    // Retrieve all student then convert them into dto and return it
-//    public List<StudentDto> getAll() {
-//        List<Student> studentList = repository.findAll();
-//        List<StudentDto> studentDTOList = studentMapper.DTO(studentList);
-//        return studentDTOList;
-//    }
-
-
-// public Student updateStudentMajor(Student student, Long id){
-//     Student student1= repository.findStudentById(id);
-//     student1.setMajor(student.getMajor());
-//     repository.save(student1);
-//     return student1;
-//
-// }
-
-//    public Student createStudent(Student student){
-//        student.setName(student.getName());
-//        //student.setMajor(student.getMajor());
-//        repository.save(student);
-//        return student;
-//
-//    }
-
-// without mapping
-
-//    public StudentDto updateStudent(StudentDto studentDto, Long id) {
-//        Student student = repository.findStudentById(id);
-//        student.setName(studentDto.getName());
-//        student.setMajorId(studentDto.getMajorId());
-//        this.repository.save(student);
-//        studentDto.setName(student.getName());
-//        return studentDto;
-//    }
-
 
 
 
