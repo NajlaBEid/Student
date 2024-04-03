@@ -1,10 +1,9 @@
-package com.example.student.module.major;
+package com.example.student.module.department.major;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,6 +31,11 @@ public class MajorController {
     @DeleteMapping("/{id}")
     public String deleteMapping( @PathVariable final Long id){
        return majorService.deleteMajor(id);
+    }
+
+    @GetMapping("n/{id}")
+    public MajorDto getWithDepartment(@PathVariable final Long id){
+        return majorService.getWithDepartment(id);
     }
 
 }
