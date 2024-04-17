@@ -26,7 +26,7 @@ public class CourseController {
     public CourseDto putMapping(@RequestBody final CourseModel model, @PathVariable final Long id){
         return service.updateCourse(model, id);
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public String deleteMapping(@PathVariable Long id){
         return service.deleteCourse(id);
     }

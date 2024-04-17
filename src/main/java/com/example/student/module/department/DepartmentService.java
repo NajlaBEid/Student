@@ -38,7 +38,6 @@ public class DepartmentService {
     }
 
     public String delete(Long id){
-        this.repository.findDepartmentById(id);
         this.repository.deleteById(id);
         return "Department with Id " + id+" deleted";
     }
