@@ -13,14 +13,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-//    @Value("${rabbitmq.exchange-name}")
-//    private String exchange;
-//
-//  @Value("${rabbitmq.queue-name}")
-//    private String queue;
-//
-//    @Value("${rabbitmq.routing-key-name}")
-//    private String routingKey;
+    @Value("${rabbitmq.exchange-name}")
+    private String exchange;
+
+  @Value("${rabbitmq.queue-name}")
+    private String queue;
+
+    @Value("${rabbitmq.routing-key-name}")
+    private String routingKey;
 
     @Value("${spring.rabbitmq.username}")
     private String username;
@@ -28,29 +28,19 @@ public class RabbitMQConfig {
     private String password;
     @Value("${spring.rabbitmq.host}")
     private String host;
-//    @Bean
-//    public Queue queue(){
-//    return new Queue("Students");
-//}
 
+    @Bean
+    public Queue queue() {
+        return new Queue(queue);
+    }
 
-@Bean
-     public  Queue queue(){
-        return new Queue("Students",true);
-
-}
-
-//    @Bean
-//    public DirectExchange exchange() {
-//        return new DirectExchange("StudentsExchange");
-//    }
     @Bean
     public TopicExchange exchange(){
-        return new TopicExchange("StudentsExchange");
+        return new TopicExchange(exchange);
     }
    @Bean
     public Binding binding(){
-        return BindingBuilder.bind(queue()).to(exchange()).with("StudentsRoutingKey");
+        return BindingBuilder.bind(queue()).to(exchange()).with(routingKey);
     }
     @Bean
     public MessageConverter converter(){

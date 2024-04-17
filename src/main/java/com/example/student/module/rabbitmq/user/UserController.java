@@ -13,7 +13,6 @@ public class UserController {
 
     private final RabbitMQProducer rabbitMQProducer;
 
-
     @PostMapping("/publish")
     public ResponseEntity<String> sendMessage(User user){
         rabbitMQProducer.sendMessage(user);
