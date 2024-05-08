@@ -5,7 +5,6 @@ import com.example.student.module.department.major.MajorDto;
 import com.example.student.module.department.major.MajorStudentProxy;
 import com.example.student.module.enroll.EnrollStudentProxy;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -72,10 +71,10 @@ public class StudnetService {
         return "Student Successfully Enrolled";
 
     }
-
-    public String dropCourse(Long studentId,Long courseId){
-       this.enrollStudentProxy.deleteEnrollment(studentId,courseId);
-        return "Course Dropped";
+    public String dropCourse(Long studentId, Long courseId){
+        enrollStudentProxy.findEnrollment(studentId,courseId);
+        enrollStudentProxy.deleteEnrollment(studentId,courseId);
+        return "Student Dropped The Course Successfully";
 
     }
 }

@@ -1,8 +1,6 @@
 package com.example.student.module.enroll;
 
-import com.example.student.module.studnet.Student;
-import com.example.student.module.studnet.StudentDto;
-import com.example.student.module.studnet.StudentModel;
+import com.example.student.module.rabbitmq.RabbitMQProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +10,26 @@ public class EnrollStudentProxy {
 
 
     private final EnrollService service;
-    public void createEnrollment(Long studentId, Long courseId){
+    private final EnrollRepository repository;
+    private final RabbitMQProducer producer;
 
-      service.create(studentId,courseId);
+    public void createEnrollment(Long studentId, Long courseId) {
+
+        service.create(studentId, courseId);
 
     }
-    public void  deleteEnrollment(Long studentId, Long courseId){
-        service.delete(studentId,courseId);
+
+    public void deleteEnrollment(Long studentId, Long courseId) {
+        service.delete(studentId, courseId);
     }
 
+    public EnrollDto findEnrollment(Long studentId, Long courseId) {
+       Enroll enroll =  repository.findEnroll(studentId, courseId);
+       EnrollDto enrollDto = new EnrollDto();
+       enrollDto.setStudentId(enroll.getStudentId());
+       enrollDto.setCourseId(enroll.getCourseId());
+       producer.sendMessage(enrollDto);
+      return enrollDto;
 
-
-
-
+    }
 }

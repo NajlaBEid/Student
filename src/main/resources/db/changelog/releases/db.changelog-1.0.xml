@@ -166,16 +166,36 @@
 
 
     </changeSet>
+    <changeSet id="ADMISSION" author="Student">
+
+        <createTable tableName="ADMISSION">
+            <column computed="false" name="ID" type="bigint" >
+                <constraints primaryKey="true" primaryKeyName="admission_PK"/>
+            </column>
+            <column computed="false" name="NAME" type="varchar(255)"/>
+        </createTable>
+
+    </changeSet>
+    <changeSet id="Insert_into_ADMISSION" author="Student">
+
+        <insert tableName="ADMISSION">
+            <column name="ID" value="1" />
+            <column name="NAME" value="Admission"/>
+        </insert>
+
+    </changeSet>
 
 
 
-<changeSet id="a" author="a">
+
+    <changeSet id="a" author="a">
     <addForeignKeyConstraint baseTableName="Enroll" baseColumnNames="COURSE_ID" constraintName="COURSE_ID_FK" referencedTableName="COURSE"
                              referencedColumnNames="ID"/>
     <addForeignKeyConstraint baseTableName="Enroll" baseColumnNames="STUDENT_ID" constraintName="STUDENT_ID_FK" referencedTableName="STUDENT"
                              referencedColumnNames="ID"/>
 
 </changeSet>
+
 
 </databaseChangeLog>
 

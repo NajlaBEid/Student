@@ -16,19 +16,19 @@ public class StudentController {
 
     @PostMapping()
     public StudentDto postMapping(@RequestBody final StudentModel student) {
-
         return service.createStudent(student);
-    }
-
-    @GetMapping("/{id}")
-    public StudentDto getMapping(@PathVariable final Long id) {
-        return service.getByIdWithMajor(id);
     }
 
     @GetMapping("/n/{id}")
     public StudentDto getMap(@PathVariable final Long id) {
         return service.getById(id);
     }
+
+    @GetMapping("/get-with-major/{id}")
+    public StudentDto getMapping(@PathVariable final Long id) {
+        return service.getByIdWithMajor(id);
+    }
+
 
     @PutMapping("/{id}")
     public StudentDto putMapping(@RequestBody final StudentModel studentModel, @PathVariable final Long id) {
@@ -46,7 +46,7 @@ public class StudentController {
     }
 
     @GetMapping("courses/{id}")
-    public List<String> getStudentSchedule(@PathVariable final Long id) {
+    public List<String> getStudentCourses(@PathVariable final Long id) {
         return service.getStudentCourses(id);
     }
 
@@ -56,9 +56,12 @@ public class StudentController {
     }
 
     @PostMapping("/drop/{studentId}/{courseId}")
-    public String postMappingDropCourse(@PathVariable final Long studentId, @PathVariable Long courseId) {
+    public String postMappingDropCourse(@PathVariable final Long studentId, @PathVariable final Long courseId) {
       return service.dropCourse(studentId,courseId);
+
+
     }
+
 
 }
 
